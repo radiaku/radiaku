@@ -3,6 +3,8 @@
 
 ![radiaku's GitHub stats](https://github-readme-stats.vercel.app/api?username=radiaku&show_icons=true&theme=radical)
 
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=radiaku&hide_progress=true)
+
 <!--
 **radiaku/radiaku** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
