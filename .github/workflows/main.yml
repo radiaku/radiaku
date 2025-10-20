@@ -1,30 +1,16 @@
 name: Metrics
 on:
-  # Schedule daily updates
-  schedule: [{cron: "0 0 * * *"}]
-  # (optional) Run workflow manually
+  schedule: [{ cron: "0 0 * * *" }]
   workflow_dispatch:
-  # (optional) Run workflow when pushing on master/main
-  push: {branches: ["master", "main"]}
+  push: { branches: ["master", "main"] }
+
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
-    environment: 
-      name: production
     permissions:
       contents: write
     steps:
-  
-      - name: Pre-pull base image with retries
-        run: |
-          imgs=("ghcr.io/library/node:20-bookworm-slim" "node:20-bookworm-slim")
-          for img in "${imgs[@]}"; do
-            for i in {1..6}; do
-              docker pull "$img" && exit 0
-              echo "pull $img failed, retry $i"; sleep $((10*i))
-            done
-          done
-          exit 1
-      - uses: radiaku/metrics@master
+      - uses: actions/checkout@v4
+      - uses: radiaku/metrics@master   # now composite action
         with:
           token: ${{ secrets.METRICS_TOKEN }}
