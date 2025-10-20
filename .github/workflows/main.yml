@@ -7,10 +7,24 @@ on:
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
+    environment: production      # only needed if you store the secret under this environment
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
+
+      # --- sanity check: fail early if secret missing ---
+      - name: Check if METRICS_TOKEN is set
+        run: |
+          if [ -z "${{ secrets.METRICS_TOKEN }}" ]; then
+            echo "❌ METRICS_TOKEN is missing or not accessible to this job."
+            echo "→ Make sure it's defined under repository or environment secrets."
+            exit 1
+          else
+            echo "✅ METRICS_TOKEN is set."
+          fi
+
+      # --- run your metrics action ---
       - uses: radiaku/metrics@master
         with:
           token: ${{ secrets.METRICS_TOKEN }}
