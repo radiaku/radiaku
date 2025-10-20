@@ -14,13 +14,17 @@ jobs:
     permissions:
       contents: write
     steps:
+  
+      - name: Pre-pull base image with retries
+        run: |
+          imgs=("ghcr.io/library/node:20-bookworm-slim" "node:20-bookworm-slim")
+          for img in "${imgs[@]}"; do
+            for i in {1..6}; do
+              docker pull "$img" && exit 0
+              echo "pull $img failed, retry $i"; sleep $((10*i))
+            done
+          done
+          exit 1
       - uses: radiaku/metrics@master
         with:
           token: ${{ secrets.METRICS_TOKEN }}
-      - name: Pre-pull base image with retries
-        run: |
-          for i in {1..6}; do
-            docker pull node:20-bookworm-slim && exit 0
-            echo "pull failed, retry $i"; sleep $((10*i))
-          done
-          exit 1
