@@ -11,6 +11,6 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: radiaku/metrics@master   # now composite action
+      - uses: radiaku/metrics@master
         with:
           token: ${{ secrets.METRICS_TOKEN }}
