@@ -1,32 +1,45 @@
 name: Metrics
-
 on:
-  schedule:
-    - cron: "0 0 * * *"  # Run daily at midnight UTC
-  workflow_dispatch:       # Allow manual trigger
-  push:
-    branches: ["main", "master" ]
+  schedule: [{ cron: "0 0 * * *" }]
+  workflow_dispatch:
+  push: { branches: ["main", "master"] }
 
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
     permissions:
-      contents: write       # allow the action to commit metrics updates
+      contents: write
+
+    # If you stored the secret as an ENVIRONMENT secret,
+    # uncomment the next 2 lines and use the exact environment name:
+    # environment:
+    #   name: production
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Generate GitHub metrics (fallback test)
+      # --- DEBUG: prove the secret is actually available to this job ---
+      - name: Sanity check secret visibility (length only)
+        run: |
+          if [ -z "${{ secrets.METRICS_TOKEN }}" ]; then
+            echo "METRICS_TOKEN is EMPTY (not visible to this job)"
+            exit 1
+          fi
+          echo "METRICS_TOKEN length: $(echo -n "${{ secrets.METRICS_TOKEN }}" | wc -c)"
+
+      # Optionally route via env to avoid YAML indentation mistakes
+      - name: Export token to env
+        run: echo "METRICS_TOKEN=${{ secrets.METRICS_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Generate GitHub metrics
         uses: radiaku/metrics@master
         with:
-          token: ${{ secrets.METRICS_TOKEN }}
-          # ✅ built-in token for quick test
-          # You can add custom config below, for example:
+          # ⬇️ The action expects an input called EXACTLY 'token'
+          token: ${{ env.METRICS_TOKEN }}
+          # Add your options here, e.g.:
           # user: radiaku
           # template: classic
           # config_timezone: Asia/Jakarta
-          # plugin_isocalendar: yes
           # plugin_languages: yes
-          # plugin_followup: yes
-          # plugin_stargazers: yes
+          # plugin_stars: yes
