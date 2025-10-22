@@ -47,32 +47,29 @@ jobs:
           GITHUB_TOKEN: ${{ env.TOKEN_RESOLVED }}
           GH_TOKEN: ${{ env.TOKEN_RESOLVED }}
       
-          # --- Core inputs forced via INPUT_* (so getInput('...') will see them) ---
-          INPUT_USER: radiaku
-          INPUT_TEMPLATE: classic
+          # Core inputs
+          INPUT_USER:            radiaku
+          INPUT_TEMPLATE:        classic
           INPUT_CONFIG_TIMEZONE: Asia/Jakarta
-      
-          # Don't kill the whole run when a plugin fails
           INPUT_PLUGINS_ERRORS_FATAL: 'no'
-      
-          # ✅ enable only stable, API-based plugins
-          INPUT_PLUGIN_ISOCALENDAR: 'yes'
-          INPUT_PLUGIN_LANGUAGES: 'yes'
-          INPUT_PLUGIN_STARGAZERS: 'yes'
-          INPUT_PLUGIN_FOLLOWUP: 'yes'
-      
-          # ❌ hard-disable Puppeteer / flaky scrapers
-          INPUT_PLUGIN_SUPPORT: 'no'
-          INPUT_PLUGIN_SKYLINE: 'no'
-          INPUT_PLUGIN_STARLISTS: 'no'
-          INPUT_PLUGIN_TOPICS: 'no'
-          INPUT_PLUGIN_PAGESPEED: 'no'
-          INPUT_PLUGIN_ACHIEVEMENTS: 'no'
-          INPUT_PLUGIN_ACTIVITY: 'no'
-          INPUT_PLUGIN_DISCUSSIONS: 'no'
-          INPUT_PLUGIN_TRAFFIC: 'no'
-          INPUT_PLUGIN_GISTS: 'no'
-          INPUT_PLUGIN_PROJECTS: 'no'
-      
-          # Optional: more visibility
           INPUT_DEBUG: 'yes'
+      
+          # ✅ keep only stable, API-only plugins
+          INPUT_PLUGIN_ISOCALENDAR: 'yes'
+          INPUT_PLUGIN_LANGUAGES:  'yes'
+          INPUT_PLUGIN_STARGAZERS: 'yes'
+          INPUT_PLUGIN_FOLLOWUP:   'yes'
+      
+          # ❌ disable flaky/scraper/wakatime plugins
+          INPUT_PLUGIN_SUPPORT:    'no'
+          INPUT_PLUGIN_SKYLINE:    'no'
+          INPUT_PLUGIN_STARLISTS:  'no'
+          INPUT_PLUGIN_TOPICS:     'no'
+          INPUT_PLUGIN_PAGESPEED:  'no'
+          INPUT_PLUGIN_ACHIEVEMENTS:  'no'
+          INPUT_PLUGIN_ACTIVITY:   'no'
+          INPUT_PLUGIN_DISCUSSIONS:  'no'
+          INPUT_PLUGIN_TRAFFIC:    'no'
+          INPUT_PLUGIN_GISTS:      'no'
+          INPUT_PLUGIN_PROJECTS:   'no'
+          INPUT_PLUGIN_WAKATIME:   'no'   # <-- add this line
