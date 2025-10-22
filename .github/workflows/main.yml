@@ -5,7 +5,7 @@ on:
     - cron: "0 0 * * *"  # Run daily at midnight UTC
   workflow_dispatch:       # Allow manual trigger
   push:
-    branches: ["master" ]
+    branches: ["main", "master" ]
 
 jobs:
   github-metrics:
@@ -20,7 +20,8 @@ jobs:
       - name: Generate GitHub metrics (fallback test)
         uses: radiaku/metrics@master
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}   # ✅ built-in token for quick test
+          token: ${{ secrets.METRICS_TOKEN }}
+          # ✅ built-in token for quick test
           # You can add custom config below, for example:
           # user: radiaku
           # template: classic
