@@ -2,7 +2,7 @@ name: Metrics
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * 1"
   workflow_dispatch:
   push:
     branches: [ "main", "master" ]
@@ -41,6 +41,8 @@ jobs:
         with:
           token: ${{ env.TOKEN_RESOLVED }}       # normal Actions input
           filename: github-metrics.svg
+          base: header, repositories
+          plugin_lines: yes
           
         env:
           # Make sure ANY code path finds the token
