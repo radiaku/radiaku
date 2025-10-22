@@ -34,16 +34,16 @@ jobs:
           fi
 
       - name: Confirm resolved token length
-        run: echo "Resolved token length: $(echo -n "$TOKEN_RESOLVED" | wc -c)"
+        run: |
+          echo "Resolved token length: $(echo -n "$TOKEN_RESOLVED" | wc -c)"
 
       - name: Generate GitHub metrics
         uses: radiaku/metrics@master
-        # Feed the token via EVERY common channel:
         with:
           token: ${{ env.TOKEN_RESOLVED }}        # INPUT_TOKEN for actions/core getInput('token')
         env:
           GITHUB_TOKEN: ${{ env.TOKEN_RESOLVED }} # process.env.GITHUB_TOKEN
           GH_TOKEN: ${{ env.TOKEN_RESOLVED }}     # some forks read this one
-          # (add your usual options below)
+          # Add other options here if needed
           # METRICS_USER: radiaku
           # METRICS_TEMPLATE: classic
