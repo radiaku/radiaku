@@ -41,26 +41,23 @@ jobs:
         with:
           token: ${{ env.TOKEN_RESOLVED }}       # normal Actions input
           
-          # --- required basics ---
+          # required basics
           user: radiaku
           template: classic
           config_timezone: Asia/Jakarta
-          # if your fork supports it, keep using the prebuilt image
-          # (it shows "Using prebuilt image | yes" in your logs)
-          # use_prebuilt_image: 'yes'
-
-          # --- make plugin errors non-fatal ---
+      
+          # do not fail the job if a plugin errors
           plugins_errors_fatal: 'no'
-
-          # --- enable only stable plugins first ---
+      
+          # ✅ stable, API-only plugins
           plugin_isocalendar: 'yes'
           plugin_languages: 'yes'
-          plugin_followup: 'yes'
           plugin_stargazers: 'yes'
-
-          # --- explicitly disable the flaky/heavy ones ---
-          plugin_support: 'no'
+          plugin_followup: 'yes'
+      
+          # ❌ disable Puppeteer / heavy scrapers for now
           plugin_skyline: 'no'
+          plugin_support: 'no'
           plugin_starlists: 'no'
           plugin_topics: 'no'
           plugin_pagespeed: 'no'
@@ -68,6 +65,8 @@ jobs:
           plugin_activity: 'no'
           plugin_discussions: 'no'
           plugin_traffic: 'no'
+          plugin_gists: 'no'
+          plugin_projects: 'no'
           
         env:
           # make sure ANY reader code will find it:
