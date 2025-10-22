@@ -1,8 +1,11 @@
 name: Metrics
+
 on:
-  schedule: [{ cron: "0 0 * * *" }]
+  schedule:
+    - cron: "0 0 * * *"
   workflow_dispatch:
-  push: { branches: ["main", "master"] }
+  push:
+    branches: [ "main", "master" ]
 
 jobs:
   github-metrics:
@@ -10,36 +13,54 @@ jobs:
     permissions:
       contents: write
 
-    # If you stored the secret as an ENVIRONMENT secret,
-    # uncomment the next 2 lines and use the exact environment name:
-    # environment:
-    #   name: production
+    # If you stored METRICS_TOKEN as an ENVIRONMENT secret, uncomment:
+    environment:
+      name: production
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # --- DEBUG: prove the secret is actually available to this job ---
-      - name: Sanity check secret visibility (length only)
+      # 1) Show whether the PAT is actually visible to this job (length only)
+      - name: Sanity check secrets visibility
+        shell: bash
         run: |
-          if [ -z "${{ secrets.METRICS_TOKEN }}" ]; then
-            echo "METRICS_TOKEN is EMPTY (not visible to this job)"
+          set -euo pipefail
+          len_pat=$(echo -n "${{ secrets.METRICS_TOKEN }}" | wc -c || true)
+          len_built_in=$(echo -n "${{ github.token }}" | wc -c || true)
+          echo "METRICS_TOKEN length: ${len_pat}"
+          echo "github.token length: ${len_built_in}"
+          if [ "${len_built_in}" -eq 0 ]; then
+            echo "ERROR: github.token is unexpectedly empty" >&2
             exit 1
           fi
-          echo "METRICS_TOKEN length: $(echo -n "${{ secrets.METRICS_TOKEN }}" | wc -c)"
 
-      # Optionally route via env to avoid YAML indentation mistakes
-      - name: Export token to env
-        run: echo "METRICS_TOKEN=${{ secrets.METRICS_TOKEN }}" >> $GITHUB_ENV
+      # 2) Resolve which token to use: prefer PAT, else fallback to built-in
+      - name: Resolve token
+        shell: bash
+        run: |
+          if [ -n "${{ secrets.METRICS_TOKEN }}" ]; then
+            echo "TOKEN_RESOLVED=${{ secrets.METRICS_TOKEN }}" >> "$GITHUB_ENV"
+            echo "Using METRICS_TOKEN (PAT)"
+          else
+            echo "TOKEN_RESOLVED=${{ github.token }}" >> "$GITHUB_ENV"
+            echo "Using github.token (fallback)"
+          fi
 
+      # 3) Optional: print the token length we will pass (to ensure non-empty)
+      - name: Confirm resolved token length
+        shell: bash
+        run: |
+          echo "Resolved token length: $(echo -n "$TOKEN_RESOLVED" | wc -c)"
+
+      # 4) Run the action, passing the resolved token
       - name: Generate GitHub metrics
         uses: radiaku/metrics@master
         with:
-          # ⬇️ The action expects an input called EXACTLY 'token'
-          token: ${{ env.METRICS_TOKEN }}
-          # Add your options here, e.g.:
+          token: ${{ env.TOKEN_RESOLVED }}
+          # Example options (customize as you like):
           # user: radiaku
           # template: classic
           # config_timezone: Asia/Jakarta
           # plugin_languages: yes
-          # plugin_stars: yes
+          # plugin_stargazers: yes
