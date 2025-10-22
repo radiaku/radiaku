@@ -40,6 +40,7 @@ jobs:
         uses: radiaku/metrics@master
         with:
           token: ${{ env.TOKEN_RESOLVED }}       # normal Actions input
+          filename: github-metrics.svg
           
         env:
           # Make sure ANY code path finds the token
@@ -73,3 +74,5 @@ jobs:
           INPUT_PLUGIN_GISTS:      'no'
           INPUT_PLUGIN_PROJECTS:   'no'
           INPUT_PLUGIN_WAKATIME:   'no'   # <-- add this line
+
+      
