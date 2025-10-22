@@ -17,7 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Debug: show token visibility & choose the source (PAT preferred)
       - name: Sanity check secrets visibility
         run: |
           echo "METRICS_TOKEN length: $(echo -n '${{ secrets.METRICS_TOKEN }}' | wc -c)"
@@ -40,10 +39,12 @@ jobs:
       - name: Generate GitHub metrics
         uses: radiaku/metrics@master
         with:
-          token: ${{ env.TOKEN_RESOLVED }}        # INPUT_TOKEN for actions/core getInput('token')
+          token: ${{ env.TOKEN_RESOLVED }}       # normal Actions input
         env:
-          GITHUB_TOKEN: ${{ env.TOKEN_RESOLVED }} # process.env.GITHUB_TOKEN
-          GH_TOKEN: ${{ env.TOKEN_RESOLVED }}     # some forks read this one
-          # Add other options here if needed
+          # make sure ANY reader code will find it:
+          INPUT_TOKEN: ${{ env.TOKEN_RESOLVED }} # what core.getInput('token') reads
+          GITHUB_TOKEN: ${{ env.TOKEN_RESOLVED }}# some forks read this directly
+          GH_TOKEN: ${{ env.TOKEN_RESOLVED }}    # others read this
+          # add your options here (if any)
           # METRICS_USER: radiaku
           # METRICS_TEMPLATE: classic
