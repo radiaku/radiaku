@@ -41,38 +41,38 @@ jobs:
         with:
           token: ${{ env.TOKEN_RESOLVED }}       # normal Actions input
           
-          # required basics
-          user: radiaku
-          template: classic
-          config_timezone: Asia/Jakarta
-      
-          # do not fail the job if a plugin errors
-          plugins_errors_fatal: 'no'
-      
-          # ✅ stable, API-only plugins
-          plugin_isocalendar: 'yes'
-          plugin_languages: 'yes'
-          plugin_stargazers: 'yes'
-          plugin_followup: 'yes'
-      
-          # ❌ disable Puppeteer / heavy scrapers for now
-          plugin_skyline: 'no'
-          plugin_support: 'no'
-          plugin_starlists: 'no'
-          plugin_topics: 'no'
-          plugin_pagespeed: 'no'
-          plugin_achievements: 'no'
-          plugin_activity: 'no'
-          plugin_discussions: 'no'
-          plugin_traffic: 'no'
-          plugin_gists: 'no'
-          plugin_projects: 'no'
-          
         env:
-          # make sure ANY reader code will find it:
-          INPUT_TOKEN: ${{ env.TOKEN_RESOLVED }} # what core.getInput('token') reads
-          GITHUB_TOKEN: ${{ env.TOKEN_RESOLVED }}# some forks read this directly
-          GH_TOKEN: ${{ env.TOKEN_RESOLVED }}    # others read this
-          # add your options here (if any)
-          # METRICS_USER: radiaku
-          # METRICS_TEMPLATE: classic
+          # Make sure ANY code path finds the token
+          INPUT_TOKEN: ${{ env.TOKEN_RESOLVED }}
+          GITHUB_TOKEN: ${{ env.TOKEN_RESOLVED }}
+          GH_TOKEN: ${{ env.TOKEN_RESOLVED }}
+      
+          # --- Core inputs forced via INPUT_* (so getInput('...') will see them) ---
+          INPUT_USER: radiaku
+          INPUT_TEMPLATE: classic
+          INPUT_CONFIG_TIMEZONE: Asia/Jakarta
+      
+          # Don't kill the whole run when a plugin fails
+          INPUT_PLUGINS_ERRORS_FATAL: 'no'
+      
+          # ✅ enable only stable, API-based plugins
+          INPUT_PLUGIN_ISOCALENDAR: 'yes'
+          INPUT_PLUGIN_LANGUAGES: 'yes'
+          INPUT_PLUGIN_STARGAZERS: 'yes'
+          INPUT_PLUGIN_FOLLOWUP: 'yes'
+      
+          # ❌ hard-disable Puppeteer / flaky scrapers
+          INPUT_PLUGIN_SUPPORT: 'no'
+          INPUT_PLUGIN_SKYLINE: 'no'
+          INPUT_PLUGIN_STARLISTS: 'no'
+          INPUT_PLUGIN_TOPICS: 'no'
+          INPUT_PLUGIN_PAGESPEED: 'no'
+          INPUT_PLUGIN_ACHIEVEMENTS: 'no'
+          INPUT_PLUGIN_ACTIVITY: 'no'
+          INPUT_PLUGIN_DISCUSSIONS: 'no'
+          INPUT_PLUGIN_TRAFFIC: 'no'
+          INPUT_PLUGIN_GISTS: 'no'
+          INPUT_PLUGIN_PROJECTS: 'no'
+      
+          # Optional: more visibility
+          INPUT_DEBUG: 'yes'
