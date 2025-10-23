@@ -1,5 +1,7 @@
 ### Hi there 👋
 
+![GitHub Metrics](./github-metrics.svg)
+
 
 ![radiaku's GitHub stats](https://github-readme-stats.vercel.app/api?username=radiaku&show_icons=true&theme=radical)
 
@@ -45,5 +47,5 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 
-![GitHub Metrics](./github-metrics.svg)
+
 
