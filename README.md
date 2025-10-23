@@ -45,4 +45,5 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 
- 
+![GitHub Metrics](./github-metrics.svg)
+
