@@ -2,7 +2,7 @@ name: Metrics
 
 on:
   schedule:
-    - cron: "0 0 * * 1"
+    - cron: "0 0 * * 1"   # weekly (Monday 00:00 UTC)
   workflow_dispatch:
   push:
     branches: [ "main", "master" ]
@@ -39,42 +39,46 @@ jobs:
       - name: Generate GitHub metrics
         uses: radiaku/metrics@master
         with:
-          token: ${{ env.TOKEN_RESOLVED }}       # normal Actions input
-          filename: github-metrics.svg
+          token: ${{ env.TOKEN_RESOLVED }}
+          filename: github-metrics.svg      # ⬅️ ensures a file is created at repo root
           base: header, repositories
           plugin_lines: yes
-          
         env:
-          # Make sure ANY code path finds the token
-          INPUT_TOKEN: ${{ env.TOKEN_RESOLVED }}
-          GITHUB_TOKEN: ${{ env.TOKEN_RESOLVED }}
-          GH_TOKEN: ${{ env.TOKEN_RESOLVED }}
-      
-          # Core inputs
-          INPUT_USER:            radiaku
-          INPUT_TEMPLATE:        classic
-          INPUT_CONFIG_TIMEZONE: Asia/Jakarta
+          INPUT_TOKEN:            ${{ env.TOKEN_RESOLVED }}
+          GITHUB_TOKEN:           ${{ env.TOKEN_RESOLVED }}
+          GH_TOKEN:               ${{ env.TOKEN_RESOLVED }}
+          INPUT_USER:             radiaku
+          INPUT_TEMPLATE:         classic
+          INPUT_CONFIG_TIMEZONE:  Asia/Jakarta
           INPUT_PLUGINS_ERRORS_FATAL: 'no'
           INPUT_DEBUG: 'yes'
-      
-          # ✅ keep only stable, API-only plugins
           INPUT_PLUGIN_ISOCALENDAR: 'yes'
           INPUT_PLUGIN_LANGUAGES:  'yes'
           INPUT_PLUGIN_STARGAZERS: 'yes'
           INPUT_PLUGIN_FOLLOWUP:   'yes'
-      
-          # ❌ disable flaky/scraper/wakatime plugins
           INPUT_PLUGIN_SUPPORT:    'no'
           INPUT_PLUGIN_SKYLINE:    'no'
           INPUT_PLUGIN_STARLISTS:  'no'
           INPUT_PLUGIN_TOPICS:     'no'
           INPUT_PLUGIN_PAGESPEED:  'no'
-          INPUT_PLUGIN_ACHIEVEMENTS:  'no'
+          INPUT_PLUGIN_ACHIEVEMENTS: 'no'
           INPUT_PLUGIN_ACTIVITY:   'no'
-          INPUT_PLUGIN_DISCUSSIONS:  'no'
+          INPUT_PLUGIN_DISCUSSIONS: 'no'
           INPUT_PLUGIN_TRAFFIC:    'no'
           INPUT_PLUGIN_GISTS:      'no'
           INPUT_PLUGIN_PROJECTS:   'no'
-          INPUT_PLUGIN_WAKATIME:   'no'   # <-- add this line
+          INPUT_PLUGIN_WAKATIME:   'no'
 
-      
+      - name: Verify output exists
+        run: |
+          ls -lah
+          test -s github-metrics.svg || (echo "No github-metrics.svg found" && exit 1)
+
+      - name: Commit generated metrics
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add github-metrics.svg
+          git commit -m "chore: update metrics [skip ci]" || echo "no changes"
+          git push
+
