@@ -2,14 +2,14 @@ name: Metrics
 
 on:
   schedule:
-    - cron: "0 0 * * 1"      # every Monday 00:00 UTC
+    - cron: "0 0 * * 1"        # every Monday 00:00 UTC (weekly)
   workflow_dispatch:
 
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write          # needed to commit the SVG
 
     steps:
       - name: Checkout repo
@@ -23,18 +23,22 @@ jobs:
             echo "TOKEN=${{ github.token }}" >> $GITHUB_ENV
           fi
 
-      - name: Generate metrics
-        uses: lowlighter/metrics@latest
+      - name: Generate metrics SVG
+        uses: lowlighter/metrics@latest          # <-- switch to upstream
         with:
           token: ${{ env.TOKEN }}
           user: radiaku
           template: classic
-          filename: github-metrics.svg          # <- supported upstream
+          filename: github-metrics.svg           # <-- file written to repo root
           plugins_errors_fatal: no
+
+          # keep to stable API-only plugins
           plugin_isocalendar: yes
           plugin_languages:  yes
           plugin_stargazers: yes
           plugin_followup:   yes
+
+          # turn off flaky / browser-scraping
           plugin_skyline:    no
           plugin_support:    no
           plugin_starlists:  no
