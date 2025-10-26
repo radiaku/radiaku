@@ -43,11 +43,16 @@ jobs:
           plugin_wakatime:   no
           plugin_activity:   no
       
+      - name: Copy SVG into repo
+        run: |
+          mkdir -p metrics_renders
+          cp /metrics_renders/github-metrics.svg metrics_renders/github-metrics.svg
+          ls -lah metrics_renders
+      
       - name: Commit generated file
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add /metrics_renders/github-metrics.svg   # <— correct path
+          git add metrics_renders/github-metrics.svg
           git commit -m "chore: update metrics [skip ci]" || echo "no changes"
           git push
-      
