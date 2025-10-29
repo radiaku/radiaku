@@ -1,9 +1,10 @@
-### Hi there 👋
+# Hi, I'm Radia (radiaku) 👋
 
+Golang enthusiast • C# tinkerer • Python enjoyer • Java cheater • Android wannabe  
+Based in Indonesia. I build data-heavy backends, CLI tools, and cozy dev environments.
 
+---
 
-
-![GitHub Metrics](./metrics_renders/github-metrics.svg)
 
 ### :hammer_and_wrench:  Main tools :
 <div>
@@ -11,13 +12,79 @@
     <img src="https://github.com/devicons/devicon/blob/master/icons/vim/vim-original.svg" title="Vim" **alt="Vim" width="120" height="120"/>
 </div>
 
-### :hammer_and_wrench:  Public stats:
-![radiaku's GitHub stats](https://github-readme-stats.vercel.app/api?username=radiaku&show_icons=true&theme=radical)
+## 🔧 Editor Setups (featured)
 
-### :hammer_and_wrench:  Public languages:
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=radiaku&hide_progress=true)
+- 🟢 **Neovim (Linux/Win)** — my main config  
+  → [radiaku/nvim](https://github.com/radiaku/nvim)
+
+- 🍎 **Neovim (macOS-first)** — tailored for mac + window managers (Aerospace/Yabai), ghostty/wezterm, tmux  
+  → [radiaku/macnvim](https://github.com/radiaku/macnvim)
+
+- 🟣 **Vim (lightweight)** — when servers don’t have neovim  
+  → [radiaku/vimrc](https://github.com/radiaku/vimrc)
+
+> Quick install:
+>
+> ```bash
+> # Neovim (Linux):
+> git clone https://github.com/radiaku/nvim ~/.config/nvim
+>
+> # macOS-first setup:
+> git clone https://github.com/radiaku/macnvim ~/.config/nvim
+>
+> # Vim (lightweight):
+> git clone https://github.com/radiaku/vimrc ~/.vimrc_runtime && \
+>  printf '%s\n' \
+>  'set runtimepath+=~/.vimrc_runtime' \
+>  'source ~/.vimrc_runtime/vimrcs/default_config.vim' > ~/.vimrc
+> ```
+>
+> See each repo README for requirements, keymaps, and plugin notes.
 
 ---
+
+## 🚀 What I’m into lately
+
+- Go + Postgres for financial/charity workflows (donor–foster, reconciliation, bank transfers)
+- Data migration pipelines (Python/pandas) with scrupulous validation
+- Terminal life: tmux, ghostty/wezterm, zsh, fzf, ripgrep
+
+---
+
+## 🧰 Tech I use
+
+`go` `lua` `bash` `zsh` `postgresql` `mysql` `node` `react` `tmux` `ghostty/wezterm` `obsidian`
+
+---
+
+## 📊 Public stats
+
+<a href="https://github.com/radiaku">
+  <img alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=radiaku&show_icons=true&hide_title=true&theme=transparent" />
+</a>
+
+<a href="https://github.com/radiaku">
+  <img alt="Top Langs" src="https://github-readme-stats.vercel.app/api/top-langs/?username=radiaku&layout=compact&theme=transparent" />
+</a>
+
+## 📊 Private stats
+<img alt="GitHub Metrics" src="./github-metrics.svg" />
+
+
+---
+
+## 📌 Selected work
+
+- 🧪 Tooling & configs: [nvim](https://github.com/radiaku/nvim) · [macnvim](https://github.com/radiaku/macnvim) · [vimrc](https://github.com/radiaku/vimrc)
+- 🗄️ Data + backend: Postgres CTEs, reconciliation jobs, Excel/CSV ingesters (Python)
+- 🛠️ Terminal ergonomics: tmux keymaps, OSC52 clipboard, copy mode workflows
+
+---
+
+## ☕ Reach me
+
+- GitHub: [@radiaku](https://github.com/radiaku)
+- (I may be slow to respond.)
 
 
 ### :hammer_and_wrench: Languages and Tools :
@@ -51,23 +118,7 @@
 
 
 
-<!--
-**radiaku/radiaku** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-
-![My GitHub Metrics](github-metrics.svg)
-
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
 
 
 
